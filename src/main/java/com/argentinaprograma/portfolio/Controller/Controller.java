@@ -193,17 +193,23 @@ public class Controller {
             return new Respuesta(false, "El usuario no se encuentra registrado", null);
         }
     };
-     
+     //Obtener datos
     @GetMapping("/datosUsuario/{token}") 
     public Object datosUsuario(@PathVariable String token) {
-        Long user_id=Long.parseLong(traducirToken(token));
-        Usuario user = interUsuarios.findUsuario(user_id);
-        for (Persona perso:interPersona.getPersonas()) {
-            if (Long.parseLong(perso.getUsuario_id())==user_id) {
-                return perso;
+        Persona persona=null;
+        if (token.equals("admin")) {
+            persona= interPersona.findPersona(Long.parseLong("2"));
+        }
+        else {
+            Long user_id=Long.parseLong(traducirToken(token));
+            Usuario user = interUsuarios.findUsuario(user_id);
+            for (Persona perso:interPersona.getPersonas()) {
+                if (Long.parseLong(perso.getUsuario_id())==user_id) {
+                    persona= perso;
+                }
             }
         }
-        return user;
+        return persona;
     }
     
     //Obtiene email
@@ -216,12 +222,21 @@ public class Controller {
     //Obtiene info contacto
     @GetMapping("/infoContacto/{token}") 
     public Contacto infoContacto(@PathVariable String token) {
-        Long user_id=Long.parseLong(traducirToken(token));
         Contacto cont = null;
-        for (Contacto contacto:interContacto.getContactos()) {
+        if (token.equals("admin")) {
+            for (Contacto contacto:interContacto.getContactos()) {
+            if (Long.parseLong("1")==Long.parseLong(contacto.getUsuario_id())) {
+                cont=contacto;
+            }
+        }
+        }
+        else {
+            Long user_id=Long.parseLong(traducirToken(token));
+            for (Contacto contacto:interContacto.getContactos()) {
             if (user_id==Long.parseLong(contacto.getUsuario_id())) {
                 cont=contacto;
             }
+        }
         }
         return cont;
         
@@ -230,10 +245,19 @@ public class Controller {
     @GetMapping("/infoEducacion/{token}")
     public List<Educacion> infoEducacion(@PathVariable String token) {
         List<Educacion> lista= new ArrayList<Educacion>();
-        for (Educacion estudio:interEdu.getEducacion()) {
+        if (token.equals("admin")) {
+                for (Educacion estudio:interEdu.getEducacion()) {
+                if (estudio.getUsuario_id()==Long.parseLong("1")) {
+                    lista.add(estudio);
+                }
+            }
+        }
+        else {
+            for (Educacion estudio:interEdu.getEducacion()) {
             if (estudio.getUsuario_id()==Long.parseLong(traducirToken(token))) {
                 lista.add(estudio);
             }
+        }
         }
         return lista;
     }
@@ -241,9 +265,18 @@ public class Controller {
     @GetMapping("/infoTecnologia/{token}")
     public List<Tecnologia> infoTecnologia(@PathVariable String token) {
         List<Tecnologia> lista = new ArrayList<Tecnologia>();
-        for (Tecnologia tecno:interTecno.getTecnologia()) {
-            if (tecno.getUsuario_id()==Long.parseLong(traducirToken(token))) {
-                lista.add(tecno);
+        if (token.equals("admin")) {
+            for (Tecnologia tecno:interTecno.getTecnologia()) {
+                if (tecno.getUsuario_id()==Long.parseLong("1")) {
+                    lista.add(tecno);
+                }
+            }
+        }
+        else {
+            for (Tecnologia tecno:interTecno.getTecnologia()) {
+                if (tecno.getUsuario_id()==Long.parseLong(traducirToken(token))) {
+                    lista.add(tecno);
+                }
             }
         }
         return lista;
