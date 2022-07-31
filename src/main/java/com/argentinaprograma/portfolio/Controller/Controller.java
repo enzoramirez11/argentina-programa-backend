@@ -239,8 +239,8 @@ public class Controller {
         }
         }
         return cont;
-        
     }
+    //----
     //Obtiene estudios
     @GetMapping("/infoEducacion/{token}")
     public List<Educacion> infoEducacion(@PathVariable String token) {
