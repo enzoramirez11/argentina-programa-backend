@@ -11,7 +11,6 @@ import com.argentinaprograma.portfolio.model.Respuesta;
 import com.argentinaprograma.portfolio.model.Tecnologia;
 import com.argentinaprograma.portfolio.model.Usuario;
 import com.argentinaprograma.portfolio.model.UsuarioForm;
-import com.argentinaprograma.portfolio.model.eliminar;
 import com.argentinaprograma.portfolio.service.IContactoService;
 import com.argentinaprograma.portfolio.service.IEducacionService;
 import com.argentinaprograma.portfolio.service.IPersonaService;
@@ -36,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin (origins = "http://localhost:4200")
+@CrossOrigin (origins = "https://proyecto-argentina-progr-75355.firebaseapp.com/")
 public class Controller {
     
     
@@ -435,21 +434,4 @@ public class Controller {
         return true;
     }
     
-    /*@PutMapping("/personas/editar/{id}")
-    public Persona editPersona (@PathVariable Long id,
-                                @RequestParam ("nombre") String nuevoNombre,
-                                @RequestParam ("apellido") String nuevoApellido,
-                                @RequestParam ("email") String nuevoEmail,
-                                @RequestParam ("password") String nuevoPassword) {
-        //busco la persona a editar
-        Persona perso = interPersona.findPersona(id);
-        
-        perso.setApellido(nuevoApellido);
-        perso.setNombre(nuevoNombre);
-        perso.setEmail(nuevoEmail);
-        perso.setPassword(nuevoPassword);
-        
-        interPersona.savePersona(perso);
-        return perso;
-    }*/
 }
